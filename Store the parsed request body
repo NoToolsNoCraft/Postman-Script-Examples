@@ -1,0 +1,23 @@
+What It Does?
+Declares a variable request Body to store the parsed request body.
+Tries to parse pm.request.body using JSON.parse().
+pm.request.body contains the raw request data.
+JSON.parse() converts it into a JavaScript object.
+If parsing fails (e.g., request body is not valid JSON), it catches the error:
+Instead of causing the test to fail, it assigns requestBody = {} (an empty object).
+This prevents errors like SyntaxError: Unexpected token in JSON.
+
+Why Is This Important?
+✅ Prevents script crashes if the request body is empty or in an invalid format.
+✅ Ensures requestBody is always an object, so later tests like requestBody.username don’t throw errors.
+✅ Useful for debugging when manually adding raw body data in Postman.
+
+___________________________________________________________________
+
+// Parse request body safely
+var requestBody;
+try {
+    requestBody = JSON.parse(pm.request.body);
+} catch (error) {
+    requestBody = {}; // Default to an empty object if parsing fails
+}
