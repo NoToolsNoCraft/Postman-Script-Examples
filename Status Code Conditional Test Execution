@@ -1,0 +1,38 @@
+// Extract response data
+var jsonData = pm.response.json();
+var statusCode = pm.response.code;
+
+//Test for successful registration
+if (statusCode === 201) {
+    pm.test("User registered successfully", function () {
+        pm.expect(jsonData).to.have.property("message", "User registered successfully");
+    });
+}
+
+//Test for duplicate username/email
+if (statusCode === 400) {
+    pm.test("User already registered (Duplicate Check)", function () {
+        pm.expect(jsonData).to.have.property("message", "User already registered");
+    });
+}
+
+//Test for password mismatch (only if not a duplicate user)
+if (statusCode === 400 && jsonData.message !== "User already registered") {
+    pm.test("Password mismatch validation", function () {
+        pm.expect(jsonData).to.have.property("message", "Passwords do not match");
+    });
+}
+
+//Test for missing fields in the request body
+pm.test("Check for missing required fields", function () {
+    if (statusCode === 400) {
+        pm.expect(jsonData.message).to.match(/(Passwords do not match|User already registered|Error during registration)/);
+    }
+});
+
+//Test for missing fields in the request body
+pm.test("Check for missing required fields", function () {
+    if (statusCode === 400) {
+        pm.expect(jsonData.message).to.match(/(Passwords do not match|User already registered|Error during registration)/);
+    }
+});
