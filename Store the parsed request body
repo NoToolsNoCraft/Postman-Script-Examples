@@ -12,8 +12,36 @@ Why Is This Important?
 ✅ Ensures requestBody is always an object, so later tests like requestBody.username don’t throw errors.
 ✅ Useful for debugging when manually adding raw body data in Postman.
 
-___________________________________________________________________
+Example Scenarios
+✅ Valid JSON Request Body
 
+{
+    "username": "testuser",
+    "email": "test@example.com",
+    "password": "Test@123",
+    "confirmPassword": "Test@123"
+}
+
+JSON.parse(pm.request.body) works correctly.
+requestBody becomes:
+
+{
+    username: "testuser",
+    email: "test@example.com",
+    password: "Test@123",
+    confirmPassword: "Test@123"
+}
+
+❌ Invalid JSON (Bad Formatting)
+
+{
+    "username": "testuser",
+    "email": "test@example.com"
+    "password": "Test@123"  // Missing comma before this line
+}
+
+___________________________________________________________________
+HERE IS THE POSTMAN SCRIPT>
 // Parse request body safely
 var requestBody;
 try {
