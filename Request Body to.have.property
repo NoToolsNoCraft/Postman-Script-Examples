@@ -1,0 +1,31 @@
+Imagine that we want to make sure that the request body is structured so that it is
+using the following properties: username, email, password & confirmPassword 
+
+{
+  "username": "testo124",
+  "email": "testo124@example.com",
+  "password": "test123",
+  "confirmPassword": "test123"
+}
+
+________________________________________________________
+
+// Parse request body safely
+var requestBody;
+try {
+    requestBody = JSON.parse(pm.request.body);
+} catch (error) {
+    requestBody = {}; // Default to an empty object if parsing fails
+}
+
+//Test if username and email were sent correctly
+pm.test("Request contains username and email", function () {
+    pm.expect(requestBody).to.have.property("username");
+    pm.expect(requestBody).to.have.property("email");
+});
+
+//Test if password fields exist
+pm.test("Request contains password and confirmPassword", function () {
+    pm.expect(requestBody).to.have.property("password");
+    pm.expect(requestBody).to.have.property("confirmPassword");
+});
