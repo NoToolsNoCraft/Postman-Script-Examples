@@ -40,6 +40,9 @@ requestBody becomes:
     "password": "Test@123"  // Missing comma before this line
 }
 
+JSON.parse(pm.request.body) throws an error.
+The catch block assigns requestBody = {} instead of breaking the test script.
+
 ___________________________________________________________________
 HERE IS THE POSTMAN SCRIPT>
 // Parse request body safely
