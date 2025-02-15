@@ -1,0 +1,10 @@
+// Extract response data
+var jsonData = pm.response.json();
+var statusCode = pm.response.code;
+
+//Test for proper error handling (500 Internal Server Error)
+if (statusCode === 500) {
+    pm.test("Server should handle errors properly", function () {
+        pm.expect(jsonData).to.have.property("message", "Error during registration");
+    });
+}
