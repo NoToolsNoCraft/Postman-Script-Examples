@@ -1,0 +1,4 @@
+//Test that status code is either 201 (success) or 400 (bad request)
+pm.test("Status code is valid (201 or 400)", function () {
+    pm.expect([201, 400]).to.include(statusCode);
+});
