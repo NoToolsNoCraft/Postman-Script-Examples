@@ -1,0 +1,39 @@
+Here is an example of the response that we have to verify 
+(we are expecting to receive this response):
+
+{
+    "message": "Notes updated successfully",
+    "updatedFor": {
+        "username": "test665",
+        "email": "test665@example.com"
+    },
+    "notes": "Here is a new note for the 665 account"
+}
+
+_____________________________________________________________
+
+pm.test("Status code is 200", function () {
+    pm.response.to.have.status(200);
+});
+
+pm.test("Response should be in JSON format", function () {
+    pm.response.to.have.header("Content-Type", "application/json; charset=utf-8");
+});
+
+pm.test("Response contains a success message", function () {
+    var jsonData = pm.response.json();
+    pm.expect(jsonData).to.have.property("message", "Notes updated successfully");
+});
+
+pm.test("Response contains the correct username and email", function () {
+    var jsonData = pm.response.json();
+    
+    pm.expect(jsonData).to.have.property("updatedFor");
+    pm.expect(jsonData.updatedFor).to.have.property("username", "test665");
+    pm.expect(jsonData.updatedFor).to.have.property("email", "test665@example.com");
+});
+
+pm.test("Response contains the updated notes field", function () {
+    var jsonData = pm.response.json();
+    pm.expect(jsonData).to.have.property("notes", "Here is a new note for the 665 account");
+});
